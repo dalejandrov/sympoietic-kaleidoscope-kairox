@@ -123,7 +123,7 @@ export function KaleidoscopeCanvas({ text }: KaleidoscopeCanvasProps) {
   return (
     <canvas
       ref={canvasRef}
-      className="block h-80 w-full bg-transparent sm:h-96 lg:h-[min(56vh,34rem)]"
+      className="block h-[32dvh] min-h-56 w-full bg-transparent sm:h-[38dvh] md:h-[48dvh] lg:h-[50dvh] xl:h-[min(54dvh,32rem)]"
     />
   );
 }
