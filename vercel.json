@@ -1,6 +1,0 @@
-{
-  "routes": [
-    { "src": "/api/gaia", "dest": "api/gaia.js" },
-    { "src": "/(.*)", "dest": "public/$1" }
-  ]
-}

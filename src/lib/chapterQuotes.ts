@@ -1,7 +1,4 @@
-import { getGaiaNarrative } from "./gaiaPrompt.js";
-
-// Eco-citas de ejemplo (luego las leeremos de un JSON)
-const ECO_QUOTES = {
+export const chapterQuotes = {
   bosque_de_cristal: [
     "Los árboles de sílice cantan cuando el tiempo se fractura.",
     "Las raíces de cristal almacenan horas derrotadas.",
@@ -28,7 +25,6 @@ const ECO_QUOTES = {
     "Cada reflejo muestra un camino: uno hacia la ruina, otro hacia la restauración.",
     "Los árboles de cristal no lloran, pero sus raíces sí sienten el dolor de nuestra indiferencia.",
     "Que tus pasos sean promesas y no cicatrices en el cristal del bosque",
-
   ],
   claro_grietas_toxicas: [
     "Los vapores verdes escriben profecías sobre el polvo.",
@@ -55,10 +51,9 @@ const ECO_QUOTES = {
     "El claro pide menos excusas y más soluciones.",
     "Los colores neón del suelo no son arte, son alarma.",
     "Respira hondo la lección; exhala compromiso.",
-    "Cada paso aquí es un eco de nuestra huella tóxica.", 
+    "Cada paso aquí es un eco de nuestra huella tóxica.",
     "Las grietas son las cicatrices de un planeta que aún puede sanar.",
     "Si el suelo habla, escucha: sus grietas son susurros de advertencia.",
-
   ],
   valle_e_waste: [
     "Los circuitos rotos todavía sueñan con datos olvidados.",
@@ -87,8 +82,7 @@ const ECO_QUOTES = {
     "Reusar es escribir código para el renacimiento.",
     "El zumbido eléctrico se disipa; el eco de la naturaleza reclama su frecuencia.",
     "Actualiza tu conciencia antes de actualizar tu dispositivo.",
-    "Haz ‘backup’ de la Tierra: no existe un segundo servidor."
-
+    "Haz ‘backup’ de la Tierra: no existe un segundo servidor.",
   ],
 
   megalopolis_de_sombras: [
@@ -116,7 +110,6 @@ const ECO_QUOTES = {
     "El concreto no absorbe lágrimas, pero sí indiferencia.",
     "Cada sombra es un refugio para la esperanza que aún persiste.",
     "Si la ciudad fuera un ser vivo, ya habría pedido auxilio.",
-    
   ],
 
   arrecife_cantor: [
@@ -143,7 +136,6 @@ const ECO_QUOTES = {
     "Sembrar coral es sembrar costa.",
     "El arrecife es un libro abierto; cada especie, un capítulo vital.",
     "Cuando el mar respira hondo, la tierra descansa.",
-
   ],
 
   cordillera_nube_semilla: [
@@ -172,7 +164,6 @@ const ECO_QUOTES = {
     "Cada gota recuperada es un voto por el valle.",
     "La sombra del aeroárbol marca la hora de la esperanza.",
     "Siembra viento sabio y cosecharás lluvia mansa.",
-
   ],
 
   megalopolis_biofilica: [
@@ -202,70 +193,5 @@ const ECO_QUOTES = {
     "La ciudad aprende a decir gracias con agua clara en sus canales.",
     "Sembrar en alto para que germinen las calles.",
     "Donde el concreto se abre, la vida encuentra vereda.",
-
-  ]
-};
-
-// ↓ NUEVO: referencias a los elementos del DOM
-const form      = document.getElementById("exoForm");
-const memoryEl  = document.getElementById("memoryInput");
-const chapterEl = document.getElementById("chapterSelect");
-// (opcional) inputs para temperatura / CO₂ si los añades
-const tempEl    = document.getElementById("tempInput");   // <input type="number">
-const co2El     = document.getElementById("co2Input");    // idem
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const memory  = memoryEl.value.trim();
-  const chapter = chapterEl.value;
-  // datos ambientales manuales o simulados
-  const envData = getRandomEnvData();   // ← ahora se genera cada envío
-
-
-  // eco-cita aleatoria según capítulo
-  const quotes   = ECO_QUOTES[chapter];
-  const ecoQuote = quotes[Math.floor(Math.random() * quotes.length)];
-
-  const text = await getGaiaNarrative(memory, envData, ecoQuote, chapter);
-
-  document.getElementById("gaiaOutput").innerHTML =
-    `<p style="color:var(--artcore-pink)">${text}</p>`;
-
-  // avisamos al sketch
-  if (window.receiveGaiaText) window.receiveGaiaText(text);
-});
-
-// ───── helpers ──────────────────────────────────────────
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getRandomEnvData() {
-  const t   = randomInt(-20, 80);       // temperatura °C
-  const co2 = randomInt(350, 1200);   // ppm CO₂
-  const pm  = randomInt(5, 75);       // µg/m³ de PM2.5
-  const h   = randomInt(0, 100);      // humedad %
-  return `temp=${t}°C, CO2=${co2}ppm, PM25=${pm}µg/m³, humedad=${h}%`;
-}
-// ────────────────────────────────────────────────────────
-document.getElementById("exoForm").addEventListener("submit", () => {
-  const audio = document.getElementById("bgAudio");
-  if (audio.paused) audio.play();
-});
-
-// ────────────────────────────────────────────────────────
-// 1. referencia al elemento <audio> y al botón
-const audioElem   = document.getElementById("bgAudio");
-const audioToggle = document.getElementById("audioToggle");
-
-// 2. si el usuario nunca interactuó, habilita audio al primer clic en el botón
-audioToggle.addEventListener("click", () => {
-  if (audioElem.paused) {
-    audioElem.play();
-    audioToggle.textContent = "🔇 Pausar música";
-  } else {
-    audioElem.pause();
-    audioToggle.textContent = "🔊 Reanudar música";
-  }
-});
+  ],
+} as const;
